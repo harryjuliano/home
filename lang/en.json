@@ -31,5 +31,6 @@
   "theme": "Theme",
   "light": "Light",
   "dark": "Dark",
-  "blogArticles": "Blog Articles"
+  "blogArticles": "Blog Articles",
+  "blogCategories": "Blog Categories"
 }

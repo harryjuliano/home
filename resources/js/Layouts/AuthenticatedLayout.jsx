@@ -58,6 +58,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     {t('blogArticles')}
                                 </NavLink>
+                                <NavLink
+                                    href={route('blog-categories.index')}
+                                    active={route().current('blog-categories.*')}
+                                >
+                                    {t('blogCategories')}
+                                </NavLink>
                             </div>
                         </div>
 
@@ -203,6 +209,12 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('blog-articles.*')}
                         >
                             {t('blogArticles')}
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('blog-categories.index')}
+                            active={route().current('blog-categories.*')}
+                        >
+                            {t('blogCategories')}
                         </ResponsiveNavLink>
                     </div>
 

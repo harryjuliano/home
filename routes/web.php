@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogArticleController;
+use App\Http\Controllers\BlogCategoryController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -45,6 +46,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/blog-articles/{blogArticle}', [BlogArticleController::class, 'show'])->name('blog-articles.show');
     Route::put('/blog-articles/{blogArticle}', [BlogArticleController::class, 'update'])->name('blog-articles.update');
     Route::delete('/blog-articles/{blogArticle}', [BlogArticleController::class, 'destroy'])->name('blog-articles.destroy');
+
+    Route::get('/blog-categories', [BlogCategoryController::class, 'index'])->name('blog-categories.index');
+    Route::post('/blog-categories', [BlogCategoryController::class, 'store'])->name('blog-categories.store');
+    Route::put('/blog-categories/{blogCategory}', [BlogCategoryController::class, 'update'])->name('blog-categories.update');
+    Route::delete('/blog-categories/{blogCategory}', [BlogCategoryController::class, 'destroy'])->name('blog-categories.destroy');
 });
 
 require __DIR__.'/auth.php';
