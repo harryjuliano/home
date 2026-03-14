@@ -1,87 +1,62 @@
 import { Head, Link } from '@inertiajs/react';
 
-const menu = [
-    { label: 'Home', href: '#home' },
-    { label: 'Tentang Kami', href: '#tentang' },
-    { label: 'Solusi', href: '#solusi' },
-    { label: 'Produk', href: '#produk' },
-    { label: 'Blog', href: '#blog' },
-    { label: 'Portofolio', href: '#portofolio' },
-    { label: 'Harga', href: '#harga' },
-    { label: 'Kontak', href: '#kontak' },
+const navItems = [
+    'Products',
+    'Industries',
+    'Transform and Support',
+    'Learning',
+    'Community',
+    'Partners',
+    'About',
 ];
 
-const solutions = [
-    'Design System',
-    'Financial System',
-    'Business Process Automation',
-    'ERP Integration',
-    'Custom Business Application',
-];
-
-const products = [
-    {
-        name: 'Julianoo Finance Suite',
-        description: 'Kontrol cashflow, budgeting, dan laporan keuangan real-time.',
-    },
-    {
-        name: 'Julianoo Inventory Suite',
-        description: 'Manajemen stok, procurement, dan kontrol gudang terintegrasi.',
-    },
-    {
-        name: 'Julianoo CRM Suite',
-        description: 'Optimalkan pipeline sales, follow-up lead, dan retensi pelanggan.',
-    },
-    {
-        name: 'Julianoo Custom ERP Solution',
-        description: 'Solusi ERP modular sesuai proses bisnis perusahaan Anda.',
-    },
-];
-
-const stats = [
-    { label: 'Implementasi Sistem', value: '120+' },
-    { label: 'Industri Dilayani', value: '18' },
-    { label: 'Kenaikan Efisiensi Klien', value: '35%' },
-    { label: 'Rata-rata Waktu Go-Live', value: '6 Minggu' },
-];
-
-const blogPosts = [
-    'Panduan memilih ERP untuk perusahaan skala menengah',
-    '5 tanda proses keuangan bisnis Anda perlu diotomasi',
-    'Cara membangun dashboard operasional yang actionable',
+const pageItems = [
+    'Understanding ERP migration',
+    'Preparing for ERP migration',
+    'Why businesses are migrating to cloud ERP',
+    'Common challenges with ERP data migration',
+    'ERP data migration best practices',
 ];
 
 export default function Welcome({ auth, canLogin, canRegister }) {
     return (
         <>
-            <Head title="Julianoo Bisnis Partner" />
-            <div className="min-h-screen bg-slate-950 text-slate-100">
-                <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/90 backdrop-blur">
-                    <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4">
-                        <a href="#home" className="text-lg font-bold tracking-wide text-cyan-300">
-                            Julianoo Bisnis Partner
-                        </a>
-                        <nav className="hidden gap-5 text-sm text-slate-200 md:flex">
-                            {menu.map((item) => (
-                                <a key={item.label} href={item.href} className="transition hover:text-cyan-300">
-                                    {item.label}
-                                </a>
-                            ))}
-                        </nav>
-                        <div className="flex items-center gap-3 text-sm">
+            <Head title="What is ERP migration?" />
+
+            <div className="min-h-screen w-full bg-[#f4f6f8] text-[#0a2746]">
+                <header className="w-full border-b border-slate-200 bg-[#eef1f4]">
+                    <div className="mx-auto flex w-full max-w-[1600px] items-center justify-between gap-8 px-10 py-4">
+                        <div className="flex items-center gap-8">
+                            <div className="flex h-12 w-20 items-center justify-center rounded bg-[#009de0] text-3xl font-black italic text-white">
+                                SAP
+                            </div>
+                            <nav className="hidden items-center gap-7 text-[24px] font-medium text-[#0a2746] xl:flex">
+                                {navItems.map((item) => (
+                                    <a key={item} href="#" className="transition hover:text-[#007cc0]">
+                                        {item}
+                                    </a>
+                                ))}
+                            </nav>
+                        </div>
+
+                        <div className="flex items-center gap-5 text-[22px] font-medium text-[#0a2746]">
+                            <a href="#" className="hidden sm:inline hover:text-[#007cc0]">
+                                Explore SAP
+                            </a>
+                            <span className="text-2xl">⌕</span>
                             {canLogin && (
                                 auth.user ? (
-                                    <Link href={route('dashboard')} className="rounded-lg border border-cyan-400/70 px-3 py-1.5 text-cyan-300">
+                                    <Link href={route('dashboard')} className="rounded border border-[#0a2746] px-4 py-2 text-base font-semibold">
                                         Dashboard
                                     </Link>
                                 ) : (
                                     <>
-                                        <Link href={route('login')} className="text-slate-200 hover:text-cyan-300">
-                                            Masuk
+                                        <Link href={route('login')} className="rounded border border-[#0a2746]/30 px-4 py-2 text-base font-semibold hover:border-[#0a2746]">
+                                            Login
                                         </Link>
                                         {canRegister && (
-                                            <Link href={route('register')} className="rounded-lg bg-cyan-400 px-3 py-1.5 font-semibold text-slate-950">
-                                                Daftar
+                                            <Link href={route('register')} className="rounded bg-[#007cc0] px-4 py-2 text-base font-semibold text-white">
+                                                Register
                                             </Link>
                                         )}
                                     </>
@@ -91,136 +66,72 @@ export default function Welcome({ auth, canLogin, canRegister }) {
                     </div>
                 </header>
 
-                <main className="mx-auto flex w-full max-w-7xl flex-col gap-24 px-6 py-14">
-                    <section id="home" className="grid gap-8 lg:grid-cols-2 lg:items-center">
-                        <div className="space-y-6">
-                            <p className="inline-block rounded-full border border-cyan-300/40 bg-cyan-300/10 px-4 py-1 text-xs uppercase tracking-[0.2em] text-cyan-200">
-                                Company Profile + Blog + B2B Commerce
+                <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-24 px-10 py-16">
+                    <section className="grid min-h-[58vh] gap-14 xl:grid-cols-2 xl:items-center">
+                        <div className="space-y-8">
+                            <p className="text-[24px] font-bold uppercase tracking-wide text-[#0d3d66] underline">What is</p>
+                            <h1 className="max-w-4xl text-6xl font-bold leading-tight text-[#001a33] 2xl:text-7xl">What is ERP migration?</h1>
+                            <p className="max-w-4xl text-[38px] leading-snug text-[#143b5f]">
+                                Enterprise resource planning (ERP) migration is the process of strategically moving data from
+                                primary sources across a business into a new ERP system.
                             </p>
-                            <h1 className="text-4xl font-black leading-tight text-white md:text-5xl">
-                                Bangun Mesin Marketing & Lead Generation untuk
-                                <span className="text-cyan-300"> Solusi ERP Bisnis Anda</span>
-                            </h1>
-                            <p className="text-lg text-slate-300">
-                                Julianoo Bisnis Partner membantu bisnis melakukan digitalisasi proses, otomasi operasional,
-                                dan integrasi sistem keuangan melalui pendekatan design system yang scalable.
+                            <p className="text-[28px] text-[#3b5975]">Published on December 13, 2024</p>
+                            <span className="inline-flex rounded-md bg-slate-200 px-4 py-2 text-xl font-semibold text-[#23405e]">ERP</span>
+                        </div>
+
+                        <div className="overflow-hidden rounded-3xl shadow-sm">
+                            <img
+                                src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1800&q=80"
+                                alt="Team collaborating around a table"
+                                className="h-full min-h-[420px] w-full object-cover"
+                            />
+                        </div>
+                    </section>
+
+                    <section className="grid gap-14 xl:grid-cols-[1fr_2.4fr_1.2fr] xl:items-start">
+                        <aside className="space-y-7">
+                            <h2 className="text-4xl font-bold text-[#0c2f4e]">What's on this page</h2>
+                            <ul className="space-y-4 border-l-2 border-[#2c7eb9] pl-5">
+                                {pageItems.map((item, index) => (
+                                    <li key={item} className={index === 0 ? 'text-[#005f9c]' : 'text-[#0c2f4e]'}>
+                                        <a href="#" className="text-2xl font-semibold leading-tight hover:text-[#007cc0]">
+                                            {item}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </aside>
+
+                        <article className="space-y-7">
+                            <h2 className="text-6xl font-bold leading-tight text-[#001a33]">Understanding ERP migration</h2>
+                            <p className="text-[34px] leading-snug text-[#143b5f]">
+                                <a className="text-[#0068aa] underline" href="#">
+                                    ERP
+                                </a>{' '}
+                                is like a business’s central nervous system. ERP solutions give organizations visibility into
+                                what’s happening across core business areas, including finance, supply chain, customer service,
+                                and HR, to name a few. This helps companies manage multiple intertwined processes within a single
+                                integrated system.
                             </p>
-                            <div className="flex flex-wrap gap-3">
-                                <a href="#konsultasi" className="rounded-lg bg-cyan-400 px-5 py-3 font-semibold text-slate-950">
-                                    Konsultasi Gratis
-                                </a>
-                                <a href="#produk" className="rounded-lg border border-white/20 px-5 py-3 font-semibold text-white">
-                                    Lihat Produk ERP
-                                </a>
+                            <p className="text-[34px] leading-snug text-[#143b5f]">
+                                An ERP migration is necessary when a legacy ERP becomes obsolete, no longer keeps up with customer
+                                needs, or limits a business’s ability to meet competitive demands. Whatever the case, data
+                                migration is a critical and potentially painstaking part of getting a new ERP up and running.
+                            </p>
+                        </article>
+
+                        <aside className="rounded-2xl bg-[#dbeaf4] p-6">
+                            <div className="inline-flex h-24 w-36 items-center justify-center rounded bg-[#009de0] text-5xl font-black italic text-white">
+                                SAP
                             </div>
-                        </div>
-                        <div className="grid gap-4 sm:grid-cols-2">
-                            {stats.map((item) => (
-                                <article key={item.label} className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                                    <p className="text-3xl font-bold text-cyan-300">{item.value}</p>
-                                    <p className="mt-2 text-sm text-slate-300">{item.label}</p>
-                                </article>
-                            ))}
-                        </div>
-                    </section>
-
-                    <section id="tentang" className="rounded-3xl border border-white/10 bg-gradient-to-r from-slate-900 to-slate-800 p-8">
-                        <h2 className="text-3xl font-bold text-white">Tentang Julianoo Bisnis Partner</h2>
-                        <p className="mt-4 max-w-4xl text-slate-300">
-                            Kami berfokus pada business solution, design system, financial system, dan business process automation.
-                            Website ini didesain sebagai pusat edukasi, trust builder, dan sales engine B2B untuk konversi lead
-                            menjadi klien implementasi ERP.
-                        </p>
-                    </section>
-
-                    <section id="solusi" className="space-y-6">
-                        <h2 className="text-3xl font-bold text-white">Solusi Utama</h2>
-                        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                            {solutions.map((solution) => (
-                                <article key={solution} className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                                    <h3 className="font-semibold text-cyan-300">{solution}</h3>
-                                    <p className="mt-2 text-sm text-slate-300">
-                                        Strategi implementasi terukur, dokumentasi proses, serta roadmap transformasi digital yang jelas.
-                                    </p>
-                                </article>
-                            ))}
-                        </div>
-                    </section>
-
-                    <section id="produk" className="space-y-6">
-                        <h2 className="text-3xl font-bold text-white">Katalog Produk ERP</h2>
-                        <div className="grid gap-4 md:grid-cols-2">
-                            {products.map((product) => (
-                                <article key={product.name} className="rounded-2xl border border-cyan-300/20 bg-cyan-300/5 p-6">
-                                    <h3 className="text-xl font-semibold text-cyan-200">{product.name}</h3>
-                                    <p className="mt-2 text-slate-300">{product.description}</p>
-                                    <div className="mt-4 flex gap-3 text-sm">
-                                        <button className="rounded-lg bg-cyan-400 px-3 py-2 font-semibold text-slate-950">Request Demo</button>
-                                        <button className="rounded-lg border border-white/20 px-3 py-2">Minta Penawaran</button>
-                                    </div>
-                                </article>
-                            ))}
-                        </div>
-                    </section>
-
-                    <section id="blog" className="space-y-6">
-                        <h2 className="text-3xl font-bold text-white">Blog Edukasi untuk Inbound Marketing</h2>
-                        <div className="grid gap-4 lg:grid-cols-3">
-                            {blogPosts.map((post) => (
-                                <article key={post} className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                                    <p className="text-xs uppercase tracking-wide text-cyan-300">Kategori: ERP & Operasional</p>
-                                    <h3 className="mt-2 text-lg font-semibold text-white">{post}</h3>
-                                    <p className="mt-2 text-sm text-slate-300">Dilengkapi CTA menuju produk, demo, dan konsultasi untuk meningkatkan conversion.</p>
-                                </article>
-                            ))}
-                        </div>
-                    </section>
-
-                    <section id="portofolio" className="space-y-6">
-                        <h2 className="text-3xl font-bold text-white">Portofolio & Case Study</h2>
-                        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-slate-300">
-                            <p>
-                                Setiap studi kasus menampilkan problem, solution, result, dan impact bisnis agar visitor memahami
-                                nilai implementasi ERP secara konkret.
+                            <p className="mt-6 text-2xl font-bold uppercase text-[#0068aa]">SAP Product</p>
+                            <h3 className="mt-2 text-5xl font-bold leading-tight text-[#001a33]">Future-proof your business</h3>
+                            <p className="mt-4 text-2xl leading-snug text-[#23405e]">
+                                See how migrating to an AI-enabled cloud ERP platform can streamline operations and unlock growth.
                             </p>
-                        </div>
-                    </section>
-
-                    <section id="harga" className="space-y-6">
-                        <h2 className="text-3xl font-bold text-white">Harga & Paket Implementasi</h2>
-                        <div className="grid gap-4 lg:grid-cols-3">
-                            {['Starter', 'Growth', 'Enterprise'].map((pack) => (
-                                <article key={pack} className="rounded-2xl border border-white/10 bg-white/5 p-6">
-                                    <h3 className="text-xl font-semibold text-white">{pack}</h3>
-                                    <p className="mt-2 text-sm text-slate-300">Paket fleksibel untuk software, implementasi, dan custom development.</p>
-                                    <a href="#konsultasi" className="mt-4 inline-block text-sm font-semibold text-cyan-300">
-                                        Diskusikan kebutuhan →
-                                    </a>
-                                </article>
-                            ))}
-                        </div>
-                    </section>
-
-                    <section id="konsultasi" className="rounded-3xl border border-cyan-300/30 bg-cyan-300/10 p-8">
-                        <h2 className="text-3xl font-bold text-white">Konsultasi Gratis / Request Demo</h2>
-                        <p className="mt-3 max-w-3xl text-slate-200">
-                            Jelaskan kebutuhan bisnis Anda (industri, jumlah user, masalah utama, dan range budget). Tim kami akan
-                            menghubungi untuk sesi discovery dan solusi yang paling relevan.
-                        </p>
-                        <div className="mt-6 flex flex-wrap gap-3">
-                            <a href="mailto:hello@julianoo.id" className="rounded-lg bg-cyan-400 px-5 py-3 font-semibold text-slate-950">
-                                Kirim Email
-                            </a>
-                            <a href="https://wa.me/6281234567890" className="rounded-lg border border-white/40 px-5 py-3 font-semibold text-white">
-                                Chat WhatsApp
-                            </a>
-                        </div>
+                        </aside>
                     </section>
                 </main>
-
-                <footer id="kontak" className="border-t border-white/10 px-6 py-8 text-center text-sm text-slate-400">
-                    © {new Date().getFullYear()} Julianoo Bisnis Partner · Business Solution · Design System · Financial System · Automation
-                </footer>
             </div>
         </>
     );
