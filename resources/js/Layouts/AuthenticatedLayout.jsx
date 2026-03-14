@@ -52,6 +52,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     {t('permissions')}
                                 </NavLink>
+                                <NavLink
+                                    href={route('blog-articles.index')}
+                                    active={route().current('blog-articles.*')}
+                                >
+                                    {t('blogArticles')}
+                                </NavLink>
                             </div>
                         </div>
 
@@ -191,6 +197,12 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('permissions.*')}
                         >
                             {t('permissions')}
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('blog-articles.index')}
+                            active={route().current('blog-articles.*')}
+                        >
+                            {t('blogArticles')}
                         </ResponsiveNavLink>
                     </div>
 

@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlogCategory;
 use App\Models\BlogPost;
+use App\Models\BlogTag;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class BlogArticleController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): JsonResponse|Response
     {
         $search = trim((string) $request->string('search', ''));
         $status = trim((string) $request->string('status', ''));
@@ -29,10 +34,23 @@ class BlogArticleController extends Controller
             ->paginate($perPage)
             ->withQueryString();
 
-        return response()->json($posts);
+        if ($request->wantsJson()) {
+            return response()->json($posts);
+        }
+
+        return Inertia::render('Admin/BlogArticles/Index', [
+            'articles' => $posts,
+            'categories' => BlogCategory::query()->orderBy('name')->get(['id', 'name']),
+            'tags' => BlogTag::query()->orderBy('name')->get(['id', 'name']),
+            'filters' => [
+                'search' => $search,
+                'status' => $status,
+                'per_page' => $perPage,
+            ],
+        ]);
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(Request $request): JsonResponse|RedirectResponse
     {
         $validated = $request->validate([
             'category_id' => ['required', 'integer', Rule::exists('blog_categories', 'id')],
@@ -64,7 +82,11 @@ class BlogArticleController extends Controller
 
         $post->tags()->sync($validated['tag_ids'] ?? []);
 
-        return response()->json($post->load(['category:id,name,slug', 'author:id,name', 'tags:id,name,slug']), 201);
+        if ($request->wantsJson()) {
+            return response()->json($post->load(['category:id,name,slug', 'author:id,name', 'tags:id,name,slug']), 201);
+        }
+
+        return back()->with('success', 'Artikel blog berhasil dibuat.');
     }
 
     public function show(BlogPost $blogArticle): JsonResponse
@@ -72,7 +94,7 @@ class BlogArticleController extends Controller
         return response()->json($blogArticle->load(['category:id,name,slug', 'author:id,name', 'tags:id,name,slug']));
     }
 
-    public function update(Request $request, BlogPost $blogArticle): JsonResponse
+    public function update(Request $request, BlogPost $blogArticle): JsonResponse|RedirectResponse
     {
         $validated = $request->validate([
             'category_id' => ['required', 'integer', Rule::exists('blog_categories', 'id')],
@@ -100,15 +122,23 @@ class BlogArticleController extends Controller
         $blogArticle->update($validated);
         $blogArticle->tags()->sync($validated['tag_ids'] ?? []);
 
-        return response()->json($blogArticle->load(['category:id,name,slug', 'author:id,name', 'tags:id,name,slug']));
+        if ($request->wantsJson()) {
+            return response()->json($blogArticle->load(['category:id,name,slug', 'author:id,name', 'tags:id,name,slug']));
+        }
+
+        return back()->with('success', 'Artikel blog berhasil diperbarui.');
     }
 
-    public function destroy(BlogPost $blogArticle): JsonResponse
+    public function destroy(Request $request, BlogPost $blogArticle): JsonResponse|RedirectResponse
     {
         $blogArticle->delete();
 
-        return response()->json([
-            'message' => 'Artikel blog berhasil dihapus.',
-        ]);
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Artikel blog berhasil dihapus.',
+            ]);
+        }
+
+        return back()->with('success', 'Artikel blog berhasil dihapus.');
     }
 }
