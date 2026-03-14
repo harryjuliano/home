@@ -31,5 +31,6 @@
   "theme": "Tema",
   "light": "Terang",
   "dark": "Gelap",
-  "blogArticles": "Artikel Blog"
+  "blogArticles": "Artikel Blog",
+  "blogCategories": "Kategori Artikel"
 }
