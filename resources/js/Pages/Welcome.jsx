@@ -1,12 +1,12 @@
 import { Head, Link } from '@inertiajs/react';
 
 const navItems = [
-    'Home',
-    'Tentang Kami',
-    'Layanan',
-    'Solusi / Produk',
-    'Blog',
-    'Kontak',
+    { label: 'Home', href: '#home' },
+    { label: 'Tentang Kami', href: '#tentang-kami' },
+    { label: 'Layanan', href: '#layanan' },
+    { label: 'Solusi / Produk', href: '#solusi-produk' },
+    { label: 'Blog', href: '#blog' },
+    { label: 'Kontak', href: '#kontak' },
 ];
 
 const trustMetrics = [
@@ -98,15 +98,15 @@ export default function Welcome({ auth, canLogin, canRegister }) {
         <>
             <Head title="Julianoo Bisnis Partner" />
 
-            <div className="min-h-screen bg-[#F8FAFC] text-[#0B1220]">
+            <div id="home" className="min-h-screen scroll-smooth bg-[#F8FAFC] text-[#0B1220]">
                 <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur">
                     <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
                         <div className="text-lg font-bold tracking-tight text-[#0F172A]">Julianoo Bisnis Partner</div>
 
                         <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 lg:flex">
                             {navItems.map((item) => (
-                                <a key={item} href="#" className="transition hover:text-[#1D4ED8]">
-                                    {item}
+                                <a key={item.label} href={item.href} className="transition hover:text-[#1D4ED8]">
+                                    {item.label}
                                 </a>
                             ))}
                         </nav>
@@ -196,7 +196,7 @@ export default function Welcome({ auth, canLogin, canRegister }) {
                         </div>
                     </section>
 
-                    <section className="mx-auto grid w-full max-w-7xl gap-10 px-6 py-20 lg:grid-cols-2 lg:items-center lg:px-8">
+                    <section id="tentang-kami" className="mx-auto grid w-full max-w-7xl scroll-mt-28 gap-10 px-6 py-20 lg:grid-cols-2 lg:items-center lg:px-8">
                         <div className="space-y-5">
                             <p className="text-sm font-semibold uppercase tracking-wide text-[#1D4ED8]">Tentang Julianoo</p>
                             <h2 className="text-3xl font-bold text-[#0F172A] md:text-4xl">Partner transformasi digital untuk bisnis yang ingin naik kelas</h2>
@@ -217,7 +217,7 @@ export default function Welcome({ auth, canLogin, canRegister }) {
                         </div>
                     </section>
 
-                    <section className="mx-auto w-full max-w-7xl px-6 pb-20 lg:px-8">
+                    <section id="layanan" className="mx-auto w-full max-w-7xl scroll-mt-28 px-6 pb-20 lg:px-8">
                         <h2 className="text-3xl font-bold text-[#0F172A] md:text-4xl">Layanan Utama</h2>
                         <p className="mt-3 max-w-2xl text-slate-600">Layanan dirancang untuk merapikan proses bisnis, meningkatkan kontrol operasional, dan mempercepat pertumbuhan perusahaan.</p>
                         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -232,7 +232,7 @@ export default function Welcome({ auth, canLogin, canRegister }) {
                         </div>
                     </section>
 
-                    <section className="bg-white py-20">
+                    <section id="solusi-produk" className="scroll-mt-28 bg-white py-20">
                         <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
                             <h2 className="text-3xl font-bold text-[#0F172A] md:text-4xl">Solusi / Produk ERP</h2>
                             <div className="mt-8 grid gap-5 md:grid-cols-2">
@@ -276,7 +276,7 @@ export default function Welcome({ auth, canLogin, canRegister }) {
                         </div>
                     </section>
 
-                    <section className="mx-auto w-full max-w-7xl px-6 py-20 lg:px-8">
+                    <section id="blog" className="mx-auto w-full max-w-7xl scroll-mt-28 px-6 py-20 lg:px-8">
                         <h2 className="text-3xl font-bold text-[#0F172A] md:text-4xl">Insight Terbaru</h2>
                         <div className="mt-8 grid gap-5 md:grid-cols-3">
                             {insights.map((item) => (
@@ -304,7 +304,7 @@ export default function Welcome({ auth, canLogin, canRegister }) {
                         </div>
                     </section>
 
-                    <section className="mx-auto w-full max-w-7xl px-6 py-20 lg:px-8">
+                    <section id="kontak" className="mx-auto w-full max-w-7xl scroll-mt-28 px-6 py-20 lg:px-8">
                         <div className="rounded-3xl bg-[#0F172A] px-8 py-12 text-center text-white">
                             <h2 className="text-3xl font-bold md:text-4xl">Siap Membangun Sistem Bisnis yang Lebih Rapi dan Efisien?</h2>
                             <p className="mx-auto mt-4 max-w-2xl text-slate-300">Diskusikan kebutuhan perusahaan Anda bersama tim Julianoo Bisnis Partner untuk mendapatkan strategi transformasi digital yang tepat.</p>
