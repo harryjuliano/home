@@ -70,3 +70,7 @@ php artisan serve
 ```
 
 > Jika environment CI/runner membatasi akses internet, `composer install` bisa gagal karena tidak bisa mengunduh dependensi dari GitHub/Packagist.
+
+## Blueprint Lanjutan
+
+- Lihat dokumen blueprint lengkap: `docs/blueprint-migration-company-profile-blog-erp-lead.md`.
