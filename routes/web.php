@@ -6,13 +6,24 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Models\BlogPost;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
+    $publishedArticles = BlogPost::query()
+        ->with(['category:id,name,slug'])
+        ->where('status', 'published')
+        ->whereNotNull('published_at')
+        ->where('published_at', '<=', now())
+        ->latest('published_at')
+        ->limit(3)
+        ->get(['id', 'category_id', 'title', 'slug', 'published_at']);
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
+        'publishedArticles' => $publishedArticles,
     ]);
 });
 
