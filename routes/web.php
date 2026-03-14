@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogArticleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -38,6 +39,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/permissions', [PermissionController::class, 'store'])->name('permissions.store');
     Route::put('/permissions/{permission}', [PermissionController::class, 'update'])->name('permissions.update');
     Route::delete('/permissions/{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
+
+    Route::get('/blog-articles', [BlogArticleController::class, 'index'])->name('blog-articles.index');
+    Route::post('/blog-articles', [BlogArticleController::class, 'store'])->name('blog-articles.store');
+    Route::get('/blog-articles/{blogArticle}', [BlogArticleController::class, 'show'])->name('blog-articles.show');
+    Route::put('/blog-articles/{blogArticle}', [BlogArticleController::class, 'update'])->name('blog-articles.update');
+    Route::delete('/blog-articles/{blogArticle}', [BlogArticleController::class, 'destroy'])->name('blog-articles.destroy');
 });
 
 require __DIR__.'/auth.php';
