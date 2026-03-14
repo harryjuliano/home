@@ -67,24 +67,6 @@ const workflow = [
     'Support lanjutan',
 ];
 
-const insights = [
-    {
-        category: 'ERP',
-        title: 'Kapan waktu yang tepat migrasi ke ERP terintegrasi?',
-        date: '12 Januari 2026',
-    },
-    {
-        category: 'Finance',
-        title: '5 cara mempercepat closing laporan keuangan bulanan',
-        date: '8 Januari 2026',
-    },
-    {
-        category: 'Automation',
-        title: 'Workflow approval digital untuk mengurangi bottleneck operasional',
-        date: '2 Januari 2026',
-    },
-];
-
 const faqItems = [
     'Apakah sistem bisa custom sesuai kebutuhan perusahaan?',
     'Apakah bisa integrasi antar modul dan aplikasi existing?',
@@ -93,7 +75,26 @@ const faqItems = [
     'Apakah ada support setelah implementasi selesai?',
 ];
 
-export default function Welcome({ auth, canLogin, canRegister }) {
+
+const formatPublishedDate = (value) => {
+    if (!value) {
+        return '-';
+    }
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return '-';
+    }
+
+    return new Intl.DateTimeFormat('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    }).format(date);
+};
+
+export default function Welcome({ auth, canLogin, canRegister, publishedArticles = [] }) {
     return (
         <>
             <Head title="Julianoo Bisnis Partner" />
@@ -279,14 +280,18 @@ export default function Welcome({ auth, canLogin, canRegister }) {
                     <section id="blog" className="mx-auto w-full max-w-7xl scroll-mt-28 px-6 py-20 lg:px-8">
                         <h2 className="text-3xl font-bold text-[#0F172A] md:text-4xl">Insight Terbaru</h2>
                         <div className="mt-8 grid gap-5 md:grid-cols-3">
-                            {insights.map((item) => (
-                                <article key={item.title} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                                    <span className="inline-flex rounded-full bg-[#14B8A6]/15 px-3 py-1 text-xs font-semibold text-[#0f766e]">{item.category}</span>
+                            {publishedArticles.length > 0 ? publishedArticles.map((item) => (
+                                <article key={item.id} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                                    <span className="inline-flex rounded-full bg-[#14B8A6]/15 px-3 py-1 text-xs font-semibold text-[#0f766e]">{item.category?.name ?? 'Blog'}</span>
                                     <h3 className="mt-4 text-lg font-bold text-[#0F172A]">{item.title}</h3>
-                                    <p className="mt-2 text-sm text-slate-500">{item.date}</p>
+                                    <p className="mt-2 text-sm text-slate-500">{formatPublishedDate(item.published_at)}</p>
                                     <a href="#" className="mt-4 inline-block text-sm font-semibold text-[#1D4ED8]">Baca artikel →</a>
                                 </article>
-                            ))}
+                            )) : (
+                                <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5 text-sm text-slate-600 md:col-span-3">
+                                    Belum ada artikel yang dipublikasikan.
+                                </div>
+                            )}
                         </div>
                     </section>
 
