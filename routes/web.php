@@ -27,6 +27,29 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/blog/{slug}', function (string $slug) {
+    $article = BlogPost::query()
+        ->with(['category:id,name,slug', 'author:id,name', 'tags:id,name,slug'])
+        ->where('slug', $slug)
+        ->where('status', 'published')
+        ->whereNotNull('published_at')
+        ->where('published_at', '<=', now())
+        ->firstOrFail([
+            'id',
+            'category_id',
+            'author_id',
+            'title',
+            'slug',
+            'excerpt',
+            'content',
+            'published_at',
+        ]);
+
+    return Inertia::render('Blog/Show', [
+        'article' => $article,
+    ]);
+})->name('blog.show');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

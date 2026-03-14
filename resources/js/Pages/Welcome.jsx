@@ -285,7 +285,7 @@ export default function Welcome({ auth, canLogin, canRegister, publishedArticles
                                     <span className="inline-flex rounded-full bg-[#14B8A6]/15 px-3 py-1 text-xs font-semibold text-[#0f766e]">{item.category?.name ?? 'Blog'}</span>
                                     <h3 className="mt-4 text-lg font-bold text-[#0F172A]">{item.title}</h3>
                                     <p className="mt-2 text-sm text-slate-500">{formatPublishedDate(item.published_at)}</p>
-                                    <a href="#" className="mt-4 inline-block text-sm font-semibold text-[#1D4ED8]">Baca artikel →</a>
+                                    <Link href={route('blog.show', item.slug)} className="mt-4 inline-block text-sm font-semibold text-[#1D4ED8]">Baca artikel →</Link>
                                 </article>
                             )) : (
                                 <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5 text-sm text-slate-600 md:col-span-3">
