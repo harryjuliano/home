@@ -35,6 +35,8 @@ Route::get('/', function () {
             'name',
             'slug',
             'short_description',
+            'thumbnail',
+            'banner_image',
             'price',
             'sale_price',
             'pricing_type',

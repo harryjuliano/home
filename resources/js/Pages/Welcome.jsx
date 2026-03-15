@@ -60,6 +60,12 @@ const productTypeMeta = {
     },
 };
 
+
+const defaultProductBackground =
+    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80';
+
+const getProductBackground = (product) => product.banner_image ?? product.thumbnail ?? defaultProductBackground;
+
 const formatProductPrice = (product) => {
     if (product.pricing_type === 'custom' || (!product.price && !product.sale_price)) {
         return 'Custom Pricing';
@@ -283,13 +289,23 @@ export default function Welcome({ auth, canLogin, canRegister, publishedArticles
                                         </div>
                                         <div className="grid gap-5 md:grid-cols-2">
                                             {group.products.length > 0 ? group.products.map((product) => (
-                                                <article key={product.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
-                                                    <h4 className="text-xl font-bold text-[#0F172A]">{product.name}</h4>
-                                                    <p className="mt-2 text-sm text-slate-600">{product.short_description ?? '-'}</p>
-                                                    <p className="mt-4 text-sm font-semibold text-[#0f766e]">{formatProductPrice(product)}</p>
-                                                    <div className="mt-5 flex gap-3">
-                                                        <a href="#" className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700">Detail</a>
-                                                        <a href="#kontak" className="rounded-xl bg-[#1D4ED8] px-4 py-2 text-sm font-semibold text-white">Minta Demo / Beli</a>
+                                                <article
+                                                    key={product.id}
+                                                    className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-6"
+                                                    style={{
+                                                        backgroundImage: `linear-gradient(135deg, rgba(15, 23, 42, 0.86), rgba(15, 118, 110, 0.58)), url(${getProductBackground(product)})`,
+                                                        backgroundSize: 'cover',
+                                                        backgroundPosition: 'center',
+                                                    }}
+                                                >
+                                                    <div className="relative z-10">
+                                                        <h4 className="text-xl font-bold text-white">{product.name}</h4>
+                                                        <p className="mt-2 text-sm text-slate-100">{product.short_description ?? '-'}</p>
+                                                        <p className="mt-4 text-sm font-semibold text-emerald-100">{formatProductPrice(product)}</p>
+                                                        <div className="mt-5 flex gap-3">
+                                                            <a href="#" className="rounded-xl border border-white/40 px-4 py-2 text-sm font-semibold text-white">Detail</a>
+                                                            <a href="#kontak" className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0F172A]">Minta Demo / Beli</a>
+                                                        </div>
                                                     </div>
                                                 </article>
                                             )) : (
