@@ -303,7 +303,7 @@ export default function Welcome({ auth, canLogin, canRegister, publishedArticles
                                                         <p className="mt-2 text-sm text-slate-100">{product.short_description ?? '-'}</p>
                                                         <p className="mt-4 text-sm font-semibold text-emerald-100">{formatProductPrice(product)}</p>
                                                         <div className="mt-5 flex gap-3">
-                                                            <a href="#" className="rounded-xl border border-white/40 px-4 py-2 text-sm font-semibold text-white">Detail</a>
+                                                            <Link href={route('products.show', product.slug)} className="rounded-xl border border-white/40 px-4 py-2 text-sm font-semibold text-white">Detail</Link>
                                                             <a href="#kontak" className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0F172A]">Minta Demo / Beli</a>
                                                         </div>
                                                     </div>

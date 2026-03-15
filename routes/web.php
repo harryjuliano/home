@@ -75,6 +75,32 @@ Route::get('/blog/{slug}', function (string $slug) {
     ]);
 })->name('blog.show');
 
+Route::get('/produk/{slug}', function (string $slug) {
+    $product = Product::query()
+        ->with('category:id,name,slug')
+        ->where('slug', $slug)
+        ->where('is_active', true)
+        ->firstOrFail([
+            'id',
+            'category_id',
+            'name',
+            'slug',
+            'short_description',
+            'description',
+            'thumbnail',
+            'banner_image',
+            'price',
+            'sale_price',
+            'pricing_type',
+            'currency',
+            'product_type',
+        ]);
+
+    return Inertia::render('Products/Show', [
+        'product' => $product,
+    ]);
+})->name('products.show');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
