@@ -43,12 +43,42 @@ const services = [
     },
 ];
 
-const products = [
-    { name: 'Accounting System', desc: 'Kontrol arus kas, buku besar, dan laporan keuangan dalam satu modul.', pricing: 'Mulai dari Rp4.500.000' },
-    { name: 'CRM Solution', desc: 'Kelola prospek, pipeline penjualan, dan aktivitas tim sales secara terstruktur.', pricing: 'Mulai dari Rp3.900.000' },
-    { name: 'HRD Management', desc: 'Absensi, payroll, evaluasi, dan administrasi karyawan dalam satu dashboard.', pricing: 'Mulai dari Rp4.200.000' },
-    { name: 'Custom ERP Suite', desc: 'Sistem ERP fleksibel sesuai proses bisnis perusahaan Anda.', pricing: 'Custom Pricing' },
-];
+
+
+const productTypeMeta = {
+    solution_catalog: {
+        title: 'Solution Catalog',
+        subtitle: 'Katalog solusi siap implementasi untuk kebutuhan operasional inti perusahaan.',
+    },
+    lead_generation: {
+        title: 'Lead Generation',
+        subtitle: 'Produk untuk menangkap prospek, nurture pipeline, dan meningkatkan konversi.',
+    },
+    digital_product_sales: {
+        title: 'Digital Product Sales',
+        subtitle: 'Produk digital siap jual untuk monetisasi layanan dan automasi transaksi.',
+    },
+};
+
+const formatProductPrice = (product) => {
+    if (product.pricing_type === 'custom' || (!product.price && !product.sale_price)) {
+        return 'Custom Pricing';
+    }
+
+    const amount = product.sale_price ?? product.price;
+
+    if (!amount) {
+        return 'Hubungi kami';
+    }
+
+    const formatted = new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: product.currency ?? 'IDR',
+        maximumFractionDigits: 0,
+    }).format(Number(amount));
+
+    return product.pricing_type === 'starting_from' ? `Mulai dari ${formatted}` : formatted;
+};
 
 const advantages = [
     'Custom sesuai alur bisnis perusahaan',
@@ -94,7 +124,13 @@ const formatPublishedDate = (value) => {
     }).format(date);
 };
 
-export default function Welcome({ auth, canLogin, canRegister, publishedArticles = [] }) {
+export default function Welcome({ auth, canLogin, canRegister, publishedArticles = [], featuredProducts = [] }) {
+    const groupedProducts = Object.keys(productTypeMeta).map((type) => ({
+        type,
+        ...productTypeMeta[type],
+        products: featuredProducts.filter((product) => product.product_type === type),
+    }));
+
     return (
         <>
             <Head title="Julianoo Bisnis Partner" />
@@ -236,17 +272,33 @@ export default function Welcome({ auth, canLogin, canRegister, publishedArticles
                     <section id="solusi-produk" className="scroll-mt-28 bg-white py-20">
                         <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
                             <h2 className="text-3xl font-bold text-[#0F172A] md:text-4xl">Solusi / Produk ERP</h2>
-                            <div className="mt-8 grid gap-5 md:grid-cols-2">
-                                {products.map((product) => (
-                                    <article key={product.name} className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
-                                        <h3 className="text-xl font-bold text-[#0F172A]">{product.name}</h3>
-                                        <p className="mt-2 text-sm text-slate-600">{product.desc}</p>
-                                        <p className="mt-4 text-sm font-semibold text-[#0f766e]">{product.pricing}</p>
-                                        <div className="mt-5 flex gap-3">
-                                            <a href="#" className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700">Detail</a>
-                                            <a href="#" className="rounded-xl bg-[#1D4ED8] px-4 py-2 text-sm font-semibold text-white">Minta Demo / Beli</a>
+                            <p className="mt-3 max-w-2xl text-slate-600">Solution Catalog + Lead Generation + Digital Product Sales.</p>
+
+                            <div className="mt-8 space-y-8">
+                                {groupedProducts.map((group) => (
+                                    <div key={group.type} className="space-y-4">
+                                        <div>
+                                            <h3 className="text-2xl font-bold text-[#0F172A]">{group.title}</h3>
+                                            <p className="text-sm text-slate-600">{group.subtitle}</p>
                                         </div>
-                                    </article>
+                                        <div className="grid gap-5 md:grid-cols-2">
+                                            {group.products.length > 0 ? group.products.map((product) => (
+                                                <article key={product.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+                                                    <h4 className="text-xl font-bold text-[#0F172A]">{product.name}</h4>
+                                                    <p className="mt-2 text-sm text-slate-600">{product.short_description ?? '-'}</p>
+                                                    <p className="mt-4 text-sm font-semibold text-[#0f766e]">{formatProductPrice(product)}</p>
+                                                    <div className="mt-5 flex gap-3">
+                                                        <a href="#" className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700">Detail</a>
+                                                        <a href="#kontak" className="rounded-xl bg-[#1D4ED8] px-4 py-2 text-sm font-semibold text-white">Minta Demo / Beli</a>
+                                                    </div>
+                                                </article>
+                                            )) : (
+                                                <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-sm text-slate-500">
+                                                    Belum ada produk aktif pada kategori ini.
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
                         </div>

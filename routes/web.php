@@ -3,10 +3,12 @@
 use App\Http\Controllers\BlogArticleController;
 use App\Http\Controllers\BlogCategoryController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Models\BlogPost;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -20,10 +22,31 @@ Route::get('/', function () {
         ->limit(3)
         ->get(['id', 'category_id', 'title', 'slug', 'published_at']);
 
+    $featuredProducts = Product::query()
+        ->with('category:id,name,slug')
+        ->where('is_active', true)
+        ->whereIn('product_type', ['solution_catalog', 'lead_generation', 'digital_product_sales'])
+        ->orderByDesc('is_featured')
+        ->orderBy('sort_order')
+        ->limit(9)
+        ->get([
+            'id',
+            'category_id',
+            'name',
+            'slug',
+            'short_description',
+            'price',
+            'sale_price',
+            'pricing_type',
+            'currency',
+            'product_type',
+        ]);
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'publishedArticles' => $publishedArticles,
+        'featuredProducts' => $featuredProducts,
     ]);
 });
 
@@ -85,6 +108,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/blog-categories', [BlogCategoryController::class, 'store'])->name('blog-categories.store');
     Route::put('/blog-categories/{blogCategory}', [BlogCategoryController::class, 'update'])->name('blog-categories.update');
     Route::delete('/blog-categories/{blogCategory}', [BlogCategoryController::class, 'destroy'])->name('blog-categories.destroy');
+
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+    Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
 
 require __DIR__.'/auth.php';
