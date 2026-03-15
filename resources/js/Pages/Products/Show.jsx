@@ -3,6 +3,17 @@ import { Head, Link } from '@inertiajs/react';
 const defaultProductBackground =
     'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80';
 
+const supportEmail = 'harrywira97@gmail.com';
+
+const buildDemoMailto = (productName) => {
+    const subject = encodeURIComponent(`Permintaan Demo ${productName}`);
+    const body = encodeURIComponent(
+        `Halo Customer Support,\n\nSaya ingin meminta demo untuk produk ${productName}. Mohon info jadwal yang tersedia.\n\nNama:\nPerusahaan:\nNo. HP:\n\nTerima kasih.`
+    );
+
+    return `mailto:${supportEmail}?subject=${subject}&body=${body}`;
+};
+
 const formatProductPrice = (product) => {
     if (product.pricing_type === 'custom' || (!product.price && !product.sale_price)) {
         return 'Custom Pricing';
@@ -50,7 +61,7 @@ export default function Show({ product }) {
 
                             <div className="pt-2">
                                 <a
-                                    href="/#kontak"
+                                    href={buildDemoMailto(product.name)}
                                     className="inline-flex rounded-xl bg-[#1D4ED8] px-5 py-3 text-sm font-semibold text-white"
                                 >
                                     Minta Demo / Beli

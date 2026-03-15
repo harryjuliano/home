@@ -61,6 +61,18 @@ const productTypeMeta = {
 };
 
 
+
+const supportEmail = 'harrywira97@gmail.com';
+
+const buildDemoMailto = (productName) => {
+    const subject = encodeURIComponent(`Permintaan Demo ${productName}`);
+    const body = encodeURIComponent(
+        `Halo Customer Support,\n\nSaya ingin meminta demo untuk produk ${productName}. Mohon info jadwal yang tersedia.\n\nNama:\nPerusahaan:\nNo. HP:\n\nTerima kasih.`
+    );
+
+    return `mailto:${supportEmail}?subject=${subject}&body=${body}`;
+};
+
 const defaultProductBackground =
     'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80';
 
@@ -304,7 +316,7 @@ export default function Welcome({ auth, canLogin, canRegister, publishedArticles
                                                         <p className="mt-4 text-sm font-semibold text-emerald-100">{formatProductPrice(product)}</p>
                                                         <div className="mt-5 flex gap-3">
                                                             <Link href={route('products.show', product.slug)} className="rounded-xl border border-white/40 px-4 py-2 text-sm font-semibold text-white">Detail</Link>
-                                                            <a href="#kontak" className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0F172A]">Minta Demo / Beli</a>
+                                                            <a href={buildDemoMailto(product.name)} className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0F172A]">Minta Demo / Beli</a>
                                                         </div>
                                                     </div>
                                                 </article>
