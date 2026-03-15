@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BlogArticleController;
 use App\Http\Controllers\BlogCategoryController;
+use App\Http\Controllers\ContactRequestController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -9,10 +10,11 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Models\BlogPost;
 use App\Models\Product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
+Route::get('/', function (Request $request) {
     $publishedArticles = BlogPost::query()
         ->with(['category:id,name,slug'])
         ->where('status', 'published')
@@ -49,8 +51,14 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'publishedArticles' => $publishedArticles,
         'featuredProducts' => $featuredProducts,
+        'prefilledContactRequest' => [
+            'request_type' => (string) $request->query('request_type', 'request_demo'),
+            'subject' => (string) $request->query('subject', ''),
+        ],
     ]);
 });
+
+Route::post('/contact-requests', [ContactRequestController::class, 'store'])->name('contact-requests.store');
 
 Route::get('/blog/{slug}', function (string $slug) {
     $article = BlogPost::query()

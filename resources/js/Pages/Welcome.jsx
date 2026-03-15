@@ -1,4 +1,4 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 
 const navItems = [
     { label: 'Home', href: '#home' },
@@ -62,15 +62,13 @@ const productTypeMeta = {
 
 
 
-const supportEmail = 'harrywira97@gmail.com';
+const buildContactRequestLink = (productName) => {
+    const params = new URLSearchParams({
+        request_type: 'request_demo',
+        subject: `Permintaan Demo ${productName}`,
+    });
 
-const buildDemoMailto = (productName) => {
-    const subject = encodeURIComponent(`Permintaan Demo ${productName}`);
-    const body = encodeURIComponent(
-        `Halo Customer Support,\n\nSaya ingin meminta demo untuk produk ${productName}. Mohon info jadwal yang tersedia.\n\nNama:\nPerusahaan:\nNo. HP:\n\nTerima kasih.`
-    );
-
-    return `mailto:${supportEmail}?subject=${subject}&body=${body}`;
+    return `/?${params.toString()}#kontak`;
 };
 
 const defaultProductBackground =
@@ -142,7 +140,29 @@ const formatPublishedDate = (value) => {
     }).format(date);
 };
 
-export default function Welcome({ auth, canLogin, canRegister, publishedArticles = [], featuredProducts = [] }) {
+export default function Welcome({ auth, canLogin, canRegister, publishedArticles = [], featuredProducts = [], prefilledContactRequest = {} }) {
+
+    const { data, setData, post, processing, errors, wasSuccessful, reset } = useForm({
+        name: '',
+        email: '',
+        whatsapp_number: '',
+        company_name: '',
+        request_type: prefilledContactRequest.request_type ?? 'request_demo',
+        subject: prefilledContactRequest.subject ?? '',
+        message: '',
+    });
+
+    const submitContactRequest = (e) => {
+        e.preventDefault();
+
+        post(route('contact-requests.store'), {
+            preserveScroll: true,
+            onSuccess: () => {
+                reset('message');
+            },
+        });
+    };
+
     const groupedProducts = Object.keys(productTypeMeta).map((type) => ({
         type,
         ...productTypeMeta[type],
@@ -316,7 +336,7 @@ export default function Welcome({ auth, canLogin, canRegister, publishedArticles
                                                         <p className="mt-4 text-sm font-semibold text-emerald-100">{formatProductPrice(product)}</p>
                                                         <div className="mt-5 flex gap-3">
                                                             <Link href={route('products.show', product.slug)} className="rounded-xl border border-white/40 px-4 py-2 text-sm font-semibold text-white">Detail</Link>
-                                                            <a href={buildDemoMailto(product.name)} className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0F172A]">Minta Demo / Beli</a>
+                                                            <a href={buildContactRequestLink(product.name)} className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0F172A]">Minta Demo / Beli</a>
                                                         </div>
                                                     </div>
                                                 </article>
@@ -390,13 +410,58 @@ export default function Welcome({ auth, canLogin, canRegister, publishedArticles
                     </section>
 
                     <section id="kontak" className="mx-auto w-full max-w-7xl scroll-mt-28 px-6 py-20 lg:px-8">
-                        <div className="rounded-3xl bg-[#0F172A] px-8 py-12 text-center text-white">
-                            <h2 className="text-3xl font-bold md:text-4xl">Siap Membangun Sistem Bisnis yang Lebih Rapi dan Efisien?</h2>
-                            <p className="mx-auto mt-4 max-w-2xl text-slate-300">Diskusikan kebutuhan perusahaan Anda bersama tim Julianoo Bisnis Partner untuk mendapatkan strategi transformasi digital yang tepat.</p>
-                            <div className="mt-7 flex flex-wrap justify-center gap-3">
-                                <a href="#" className="rounded-xl bg-white px-5 py-3 text-sm font-semibold text-[#0F172A]">Konsultasi Gratis</a>
-                                <a href="#" className="rounded-xl border border-white/40 px-5 py-3 text-sm font-semibold text-white">Lihat Produk Kami</a>
-                            </div>
+                        <div className="rounded-3xl bg-[#0F172A] px-8 py-12 text-white">
+                            <h2 className="text-3xl font-bold md:text-4xl">Hubungi Kami</h2>
+                            <p className="mt-4 max-w-2xl text-slate-300">Gunakan form ini untuk request demo, pertanyaan umum, penawaran kerja sama, atau konsultasi kebutuhan sistem.</p>
+
+                            <form onSubmit={submitContactRequest} className="mt-8 grid gap-4 md:grid-cols-2">
+                                <div>
+                                    <label htmlFor="name" className="text-sm font-medium text-slate-200">Nama</label>
+                                    <input id="name" type="text" value={data.name} onChange={(e) => setData('name', e.target.value)} className="mt-1 w-full rounded-xl border border-slate-500 bg-slate-900 px-4 py-2 text-sm text-white" />
+                                    {errors.name && <p className="mt-1 text-xs text-rose-300">{errors.name}</p>}
+                                </div>
+                                <div>
+                                    <label htmlFor="email" className="text-sm font-medium text-slate-200">Email</label>
+                                    <input id="email" type="email" value={data.email} onChange={(e) => setData('email', e.target.value)} className="mt-1 w-full rounded-xl border border-slate-500 bg-slate-900 px-4 py-2 text-sm text-white" />
+                                    {errors.email && <p className="mt-1 text-xs text-rose-300">{errors.email}</p>}
+                                </div>
+                                <div>
+                                    <label htmlFor="whatsapp_number" className="text-sm font-medium text-slate-200">No Whatsapp</label>
+                                    <input id="whatsapp_number" type="text" value={data.whatsapp_number} onChange={(e) => setData('whatsapp_number', e.target.value)} className="mt-1 w-full rounded-xl border border-slate-500 bg-slate-900 px-4 py-2 text-sm text-white" />
+                                    {errors.whatsapp_number && <p className="mt-1 text-xs text-rose-300">{errors.whatsapp_number}</p>}
+                                </div>
+                                <div>
+                                    <label htmlFor="company_name" className="text-sm font-medium text-slate-200">Nama Perusahaan</label>
+                                    <input id="company_name" type="text" value={data.company_name} onChange={(e) => setData('company_name', e.target.value)} className="mt-1 w-full rounded-xl border border-slate-500 bg-slate-900 px-4 py-2 text-sm text-white" />
+                                    {errors.company_name && <p className="mt-1 text-xs text-rose-300">{errors.company_name}</p>}
+                                </div>
+                                <div>
+                                    <label htmlFor="request_type" className="text-sm font-medium text-slate-200">Jenis Permintaan</label>
+                                    <select id="request_type" value={data.request_type} onChange={(e) => setData('request_type', e.target.value)} className="mt-1 w-full rounded-xl border border-slate-500 bg-slate-900 px-4 py-2 text-sm text-white">
+                                        <option value="request_demo">Request demo</option>
+                                        <option value="general_question">Pertanyaan umum</option>
+                                        <option value="partnership_offer">Penawaran kerja sama</option>
+                                        <option value="system_consultation">Konsultasi kebutuhan sistem</option>
+                                    </select>
+                                    {errors.request_type && <p className="mt-1 text-xs text-rose-300">{errors.request_type}</p>}
+                                </div>
+                                <div>
+                                    <label htmlFor="subject" className="text-sm font-medium text-slate-200">Subjek</label>
+                                    <input id="subject" type="text" value={data.subject} onChange={(e) => setData('subject', e.target.value)} className="mt-1 w-full rounded-xl border border-slate-500 bg-slate-900 px-4 py-2 text-sm text-white" />
+                                    {errors.subject && <p className="mt-1 text-xs text-rose-300">{errors.subject}</p>}
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label htmlFor="message" className="text-sm font-medium text-slate-200">Pesan</label>
+                                    <textarea id="message" rows={5} value={data.message} onChange={(e) => setData('message', e.target.value)} className="mt-1 w-full rounded-xl border border-slate-500 bg-slate-900 px-4 py-2 text-sm text-white" />
+                                    {errors.message && <p className="mt-1 text-xs text-rose-300">{errors.message}</p>}
+                                </div>
+                                <div className="md:col-span-2 flex items-center justify-between gap-3">
+                                    <button type="submit" disabled={processing} className="rounded-xl bg-white px-5 py-3 text-sm font-semibold text-[#0F172A] disabled:opacity-70">
+                                        {processing ? 'Mengirim...' : 'Kirim Permintaan'}
+                                    </button>
+                                    {(wasSuccessful) && <p className="text-sm text-emerald-300">Permintaan berhasil dikirim.</p>}
+                                </div>
+                            </form>
                         </div>
                     </section>
                 </main>
