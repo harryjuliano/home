@@ -34,6 +34,7 @@ const formatProductPrice = (product) => {
 
 export default function Show({ product }) {
     const heroImage = product.banner_image ?? product.thumbnail ?? defaultProductBackground;
+    const productDescription = product.description ?? product.short_description ?? 'Deskripsi produk belum tersedia.';
 
     return (
         <>
@@ -55,7 +56,10 @@ export default function Show({ product }) {
                             <h1 className="text-3xl font-bold text-[#0F172A]">{product.name}</h1>
                             <p className="text-lg font-semibold text-emerald-600">{formatProductPrice(product)}</p>
 
-                            <p className="text-slate-700">{product.description ?? product.short_description ?? 'Deskripsi produk belum tersedia.'}</p>
+                            <div
+                                className="space-y-4 text-slate-700 [&_h1]:text-3xl [&_h1]:font-bold [&_h2]:text-2xl [&_h2]:font-semibold [&_h3]:text-xl [&_h3]:font-semibold [&_p]:leading-relaxed [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-5 [&_a]:font-semibold [&_a]:text-[#1D4ED8] [&_a]:underline"
+                                dangerouslySetInnerHTML={{ __html: productDescription }}
+                            />
 
                             <div className="flex flex-wrap gap-3 pt-2">
                                 <a
