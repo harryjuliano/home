@@ -43,6 +43,7 @@ Route::get('/', function (Request $request) {
             'sale_price',
             'pricing_type',
             'currency',
+            'demo_url',
             'product_type',
         ]);
 
@@ -101,6 +102,7 @@ Route::get('/produk/{slug}', function (string $slug) {
             'sale_price',
             'pricing_type',
             'currency',
+            'demo_url',
             'product_type',
         ]);
 

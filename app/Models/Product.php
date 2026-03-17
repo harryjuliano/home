@@ -21,6 +21,7 @@ class Product extends Model
         'sale_price',
         'pricing_type',
         'currency',
+        'demo_url',
         'is_featured',
         'is_active',
         'sort_order',
