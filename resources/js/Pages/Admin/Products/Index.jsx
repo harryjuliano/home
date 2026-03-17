@@ -33,6 +33,7 @@ export default function ProductIndex({ products, categories, productTypeOptions,
         sale_price: '',
         pricing_type: 'starting_from',
         currency: 'IDR',
+        demo_url: '',
         is_featured: false,
         is_active: true,
         sort_order: 0,
@@ -50,6 +51,7 @@ export default function ProductIndex({ products, categories, productTypeOptions,
         sale_price: '',
         pricing_type: 'starting_from',
         currency: 'IDR',
+        demo_url: '',
         is_featured: false,
         is_active: true,
         sort_order: 0,
@@ -59,7 +61,7 @@ export default function ProductIndex({ products, categories, productTypeOptions,
         e.preventDefault();
         createForm.post(route('products.store'), {
             preserveScroll: true,
-            onSuccess: () => createForm.reset('name', 'slug', 'short_description', 'description', 'price', 'sale_price', 'is_featured'),
+            onSuccess: () => createForm.reset('name', 'slug', 'short_description', 'description', 'price', 'sale_price', 'demo_url', 'is_featured'),
         });
     };
 
@@ -84,6 +86,7 @@ export default function ProductIndex({ products, categories, productTypeOptions,
             sale_price: product.sale_price ?? '',
             pricing_type: product.pricing_type ?? 'starting_from',
             currency: product.currency ?? 'IDR',
+            demo_url: product.demo_url ?? '',
             is_featured: Boolean(product.is_featured),
             is_active: Boolean(product.is_active),
             sort_order: product.sort_order ?? 0,
@@ -188,6 +191,7 @@ export default function ProductIndex({ products, categories, productTypeOptions,
                                 </select>
                                 <input className="w-full rounded border-gray-300" maxLength="3" placeholder="Currency (IDR)" value={createForm.data.currency} onChange={(e) => createForm.setData('currency', e.target.value.toUpperCase())} />
                             </div>
+                            <input className="w-full rounded border-gray-300" type="url" placeholder="Live Demo URL (opsional)" value={createForm.data.demo_url} onChange={(e) => createForm.setData('demo_url', e.target.value)} />
                             <input type="number" min="0" className="w-full rounded border-gray-300" placeholder="Urutan tampil" value={createForm.data.sort_order} onChange={(e) => createForm.setData('sort_order', e.target.value)} />
                             <div className="flex flex-wrap gap-4">
                                 <label className="inline-flex items-center gap-2 text-sm">
@@ -233,6 +237,7 @@ export default function ProductIndex({ products, categories, productTypeOptions,
                                     </select>
                                     <input className="w-full rounded border-gray-300" maxLength="3" placeholder="Currency (IDR)" value={editForm.data.currency} onChange={(e) => editForm.setData('currency', e.target.value.toUpperCase())} />
                                 </div>
+                                <input className="w-full rounded border-gray-300" type="url" placeholder="Live Demo URL (opsional)" value={editForm.data.demo_url} onChange={(e) => editForm.setData('demo_url', e.target.value)} />
                                 <input type="number" min="0" className="w-full rounded border-gray-300" placeholder="Urutan tampil" value={editForm.data.sort_order} onChange={(e) => editForm.setData('sort_order', e.target.value)} />
                                 <div className="flex flex-wrap gap-4">
                                     <label className="inline-flex items-center gap-2 text-sm">

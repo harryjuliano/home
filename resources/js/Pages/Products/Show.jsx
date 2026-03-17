@@ -57,13 +57,27 @@ export default function Show({ product }) {
 
                             <p className="text-slate-700">{product.description ?? product.short_description ?? 'Deskripsi produk belum tersedia.'}</p>
 
-                            <div className="pt-2">
+                            <div className="flex flex-wrap gap-3 pt-2">
                                 <a
                                     href={buildContactRequestLink(product.name)}
                                     className="inline-flex rounded-xl bg-[#1D4ED8] px-5 py-3 text-sm font-semibold text-white"
                                 >
-                                    Minta Demo / Beli
+                                    Hubungi Kami
                                 </a>
+                                {product.demo_url ? (
+                                    <a
+                                        href={product.demo_url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="inline-flex rounded-xl border border-[#1D4ED8] px-5 py-3 text-sm font-semibold text-[#1D4ED8]"
+                                    >
+                                        Live Demo
+                                    </a>
+                                ) : (
+                                    <span className="inline-flex cursor-not-allowed rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-400">
+                                        Live Demo
+                                    </span>
+                                )}
                             </div>
                         </div>
                     </article>
