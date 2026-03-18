@@ -14,7 +14,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function (Request $request) {
+Route::redirect('/', '/login');
+
+Route::get('/landing', function (Request $request) {
     $publishedArticles = BlogPost::query()
         ->with(['category:id,name,slug'])
         ->where('status', 'published')
@@ -57,7 +59,7 @@ Route::get('/', function (Request $request) {
             'subject' => (string) $request->query('subject', ''),
         ],
     ]);
-});
+})->name('landing');
 
 Route::post('/contact-requests', [ContactRequestController::class, 'store'])->name('contact-requests.store');
 
