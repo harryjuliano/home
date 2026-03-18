@@ -10,54 +10,10 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Models\BlogPost;
 use App\Models\Product;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function (Request $request) {
-    $publishedArticles = BlogPost::query()
-        ->with(['category:id,name,slug'])
-        ->where('status', 'published')
-        ->whereNotNull('published_at')
-        ->where('published_at', '<=', now())
-        ->latest('published_at')
-        ->limit(3)
-        ->get(['id', 'category_id', 'title', 'slug', 'published_at']);
-
-    $featuredProducts = Product::query()
-        ->with('category:id,name,slug')
-        ->where('is_active', true)
-        ->whereIn('product_type', ['solution_catalog', 'lead_generation', 'digital_product_sales'])
-        ->orderByDesc('is_featured')
-        ->orderBy('sort_order')
-        ->limit(9)
-        ->get([
-            'id',
-            'category_id',
-            'name',
-            'slug',
-            'short_description',
-            'thumbnail',
-            'banner_image',
-            'price',
-            'sale_price',
-            'pricing_type',
-            'currency',
-            'demo_url',
-            'product_type',
-        ]);
-
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'publishedArticles' => $publishedArticles,
-        'featuredProducts' => $featuredProducts,
-        'prefilledContactRequest' => [
-            'request_type' => (string) $request->query('request_type', 'request_demo'),
-            'subject' => (string) $request->query('subject', ''),
-        ],
-    ]);
-});
+Route::redirect('/', '/login');
 
 Route::post('/contact-requests', [ContactRequestController::class, 'store'])->name('contact-requests.store');
 
