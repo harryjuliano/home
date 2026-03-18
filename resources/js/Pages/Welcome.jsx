@@ -76,6 +76,18 @@ const defaultProductBackground =
 
 const getProductBackground = (product) => product.banner_image ?? product.thumbnail ?? defaultProductBackground;
 
+const demoLoginOnlyProducts = new Set([
+    'pos system',
+    'inventory management system',
+    'finance management system',
+    'accounting system',
+    'hr management system (hrd)',
+    'payroll system',
+    'maintenance management system',
+]);
+
+const shouldRedirectDemoToLogin = (productName = '') => demoLoginOnlyProducts.has(productName.trim().toLowerCase());
+
 const formatProductPrice = (product) => {
     if (product.pricing_type === 'custom' || (!product.price && !product.sale_price)) {
         return 'Custom Pricing';
@@ -337,7 +349,11 @@ export default function Welcome({ auth, canLogin, canRegister, publishedArticles
                                                         <div className="mt-5 flex flex-wrap gap-3">
                                                             <Link href={route('products.show', product.slug)} className="rounded-xl border border-white/40 px-4 py-2 text-sm font-semibold text-white">Detail</Link>
                                                             <a href={buildContactRequestLink(product.name)} className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0F172A]">Hubungi Kami</a>
-                                                            {product.demo_url ? (
+                                                            {shouldRedirectDemoToLogin(product.name) ? (
+                                                                <Link href={route('login')} className="rounded-xl border border-white/70 px-4 py-2 text-sm font-semibold text-white">
+                                                                    Live Demo
+                                                                </Link>
+                                                            ) : product.demo_url ? (
                                                                 <a href={product.demo_url} target="_blank" rel="noreferrer" className="rounded-xl border border-white/70 px-4 py-2 text-sm font-semibold text-white">
                                                                     Live Demo
                                                                 </a>

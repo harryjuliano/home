@@ -3,6 +3,18 @@ import { Head, Link } from '@inertiajs/react';
 const defaultProductBackground =
     'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80';
 
+const demoLoginOnlyProducts = new Set([
+    'pos system',
+    'inventory management system',
+    'finance management system',
+    'accounting system',
+    'hr management system (hrd)',
+    'payroll system',
+    'maintenance management system',
+]);
+
+const shouldRedirectDemoToLogin = (productName = '') => demoLoginOnlyProducts.has(productName.trim().toLowerCase());
+
 const buildContactRequestLink = (productName) => {
     const params = new URLSearchParams({
         request_type: 'request_demo',
@@ -68,7 +80,14 @@ export default function Show({ product }) {
                                 >
                                     Hubungi Kami
                                 </a>
-                                {product.demo_url ? (
+                                {shouldRedirectDemoToLogin(product.name) ? (
+                                    <Link
+                                        href={route('login')}
+                                        className="inline-flex rounded-xl border border-[#1D4ED8] px-5 py-3 text-sm font-semibold text-[#1D4ED8]"
+                                    >
+                                        Live Demo
+                                    </Link>
+                                ) : product.demo_url ? (
                                     <a
                                         href={product.demo_url}
                                         target="_blank"
